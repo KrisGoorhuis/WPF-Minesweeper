@@ -15,10 +15,6 @@ namespace Multisweeper
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //Console.WriteLine("Testfromstartup");
-
-            //GameManager gameManager = new GameManager();
-
             
         }
     }

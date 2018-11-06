@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -25,54 +26,66 @@ namespace Multisweeper
         public static GameManager gameManager = new GameManager();
         public static Square[,] playField;
 
+        string previousGameMode = "default"; // default, custom, multiplayer
+        int previousCustomMineSaturation;
+        int previousCustomWidth;
+        int previousCustomHeight;
+
         UIArea uiArea = new UIArea();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            Square[,] _playField = gameManager.GeneratePlayField();
-            _playField = gameManager.PopulatePlayFieldWithMines(_playField);
-            _playField = gameManager.CalculateNeighboringMineCount(_playField);
-            playField = _playField;
+            playField = gameManager.NewDefaultGame();
 
             DrawPlayField(playField);
         }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+                 
+        void SmileyButton(object sender, RoutedEventArgs e)
         {
-            var window = GetWindow(this);
-            window.KeyDown += HandleKeyPress;
+            if (previousGameMode == "default")
+            {
+                playField = gameManager.NewDefaultGame();
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "custom")
+            {
+                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMineSaturation);
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "multiplayer")
+            {
+
+            }
         }
 
-        private void HandleKeyPress(object sender, KeyEventArgs e)
+        void StartDefaultSingplePlayer(object sender, RoutedEventArgs e)
         {
-            //Do work
-        }
-
-        void StartDefaultSingpleplayer(object sender, RoutedEventArgs e)
-        {
-            Square[,] _playField = gameManager.GeneratePlayField();
-            _playField = gameManager.PopulatePlayFieldWithMines(_playField);
-
-            playField = _playField;
-
+            previousGameMode = "default";
+            playField = gameManager.NewDefaultGame();
             DrawPlayField(playField);
-
         }
 
-        void StartCustomSinglePlayer(object sender, RoutedEventArgs e)
+        public void ConfigureCustomSinglePlayer(object sender, RoutedEventArgs e)
         {
-
             // TODO: Input must be an integer between 0 and 100; Validate!
 
-            // TODO: access input field
-            int specifiedSaturation = 0;
+            CustomSinglePlayer w = new CustomSinglePlayer();
+            w.Owner = this;
+            w.ShowDialog();
+        }
 
-            Square[,] _playField = gameManager.GeneratePlayField();
-            _playField = gameManager.PopulatePlayFieldWithMines(_playField, specifiedSaturation);
+        public void StartCustomSinglePlayer(int width, int height, int saturation)
+        {
+            playField = gameManager.NewCustomSinglePlayerGame(width, height, saturation);
 
-            playField = _playField;
+            previousGameMode = "custom";
+            previousCustomWidth = width;
+            previousCustomHeight = height;
+            previousCustomMineSaturation = width;
 
             DrawPlayField(playField);
         }
@@ -90,7 +103,6 @@ namespace Multisweeper
        
 
 
-
         public void DrawPlayField(Square[,] playField)
         {
             for (int i = 0; i < playField.GetLength(0); i++)
@@ -100,7 +112,7 @@ namespace Multisweeper
                     Square square = playField[i, j];
 
                     Canvas.SetLeft(square, 0 + (square.squareWidth * i));
-                    Canvas.SetTop(square, uiArea.UIHeight + square.squareHeight * j);
+                    Canvas.SetTop(square, square.squareHeight * j);
 
 
                     if (!square.isMined && square.isUncovered)
@@ -118,7 +130,7 @@ namespace Multisweeper
             }
 
             Application.Current.MainWindow.Width = playField[0, 0].squareWidth * (playField.GetLength(0) + 1);
-            Application.Current.MainWindow.Height = playField[0, 0].squareHeight * (playField.GetLength(1) + 1) + uiArea.UIHeight + 40; // 40 - Don't know where some of the height is coming from yet. Let's fudge it.
+            Application.Current.MainWindow.Height = playField[0, 0].squareHeight * (playField.GetLength(1) + 1) + topBar.Height + 40; // 40 - Don't know where some of the height is coming from yet. Let's fudge it.
         }
 
 

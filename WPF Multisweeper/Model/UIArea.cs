@@ -8,7 +8,7 @@ namespace Multisweeper
 {
     class UIArea
     {
-        public int UIHeight = 80;
+        public int UIHeight = 40;
 
 
     }

@@ -7,17 +7,12 @@
         mc:Ignorable="d"
         Padding="0" 
         Title="MultiSweeper" MinHeight="200" MinWidth="100">
-    <DockPanel>
+    <StackPanel Orientation="Vertical">
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File" HorizontalAlignment="Right">
-
-                <Separator></Separator>
-                <MenuItem Header="Exit"/>
-            </MenuItem>
 
             <MenuItem Header="Singleplayer">
-                <MenuItem Header="New Game" Click="StartDefaultSingpleplayer"/>
-                <MenuItem Header="New Custom Game" Click="StartCustomSinglePlayer"/>
+                <MenuItem Header="New Game" Click="StartDefaultSingplePlayer"/>
+                <MenuItem Header="New Custom Game" Click="ConfigureCustomSinglePlayer"/>
             </MenuItem>
 
             <MenuItem Header="Multiplayer">
@@ -27,8 +22,26 @@
 
         </Menu>
 
+        
+
+        <UniformGrid Rows="1" Columns="3" Name="topBar" Height="40">
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                000
+            </TextBlock>
+            
+            <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="Smiley" Click="SmileyButton" Width="20" Height="20"> 
+                    :) 
+                </Button>
+            </TextBlock>
+            
+            <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"> 
+                000 
+            </TextBlock>
+        </UniformGrid>
+
         <Canvas Name="mainCanvas" MinHeight="20" MinWidth="20">
 
         </Canvas>
-    </DockPanel>
+    </StackPanel>
 </Window>

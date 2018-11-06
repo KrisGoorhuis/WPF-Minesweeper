@@ -13,8 +13,8 @@ namespace Multisweeper
     public class Square : Button
     {
         
-        public int squareWidth = 15;
-        public int squareHeight = 15;
+        public int squareWidth = 17;
+        public int squareHeight = 17;
 
         public string defaultColor = "gray";
         public string unsureFlagColor = "yellow";
@@ -23,6 +23,7 @@ namespace Multisweeper
         public int neighboringMines;
         public bool isMined;
         public bool isUncovered;
+        public bool markedForUncovering;
         public int xCoord;
         public int yCoord;
 
@@ -51,9 +52,9 @@ namespace Multisweeper
             CycleFlag();
         }
 
-
         void Dig()
         {
+
             // 0 is unmarked.
             if (isUncovered || flag != 0)
             {
@@ -67,10 +68,13 @@ namespace Multisweeper
                 return;
             }
 
-            if (!isMined)
+            if (neighboringMines >= 1)
             {
-                Square[,] thing = MainWindow.playField;
-                MainWindow.gameManager.UncoverSquares(this);
+                MainWindow.gameManager.UncoverSingleSquare(this);
+            }
+            else if (neighboringMines == 0)
+            {
+                MainWindow.gameManager.ClearZeroes(this);
             }
 
 
