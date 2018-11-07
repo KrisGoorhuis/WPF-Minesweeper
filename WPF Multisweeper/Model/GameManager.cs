@@ -12,12 +12,21 @@ namespace Multisweeper
 {
     public class GameManager
     {
-        public bool gameEnded = false;
+        public bool gameEnded = false; // Disallowing clicks handled by square class.
+        public bool takingFirstMove = true;
+        public bool usefulFirstMove = true;
+        //public int totalMines = 0;
+        public int unflaggedMinesSupposed; // Not necessarily accurate.
+        public int unflaggedMinesActual;
 
-        int xSizeDefault = 20;
-        int ySizeDefault = 20;
+        int safeSquaresRemaining;
 
-        int defaultMineSaturation = 25;
+        int xSizeDefault = 10;
+        int ySizeDefault = 10;
+        int totalSquares;
+
+        //int defaultMineSaturationThreshold = 10;
+        int defaultMineCount = 1;
 
         Queue<Square> uncoverQueue = new Queue<Square>();
         Queue<Square> uncoverZeroesQueue = new Queue<Square>();
@@ -32,6 +41,8 @@ namespace Multisweeper
 
         public Square[,] NewDefaultGame()
         {
+            Reset();
+
             Square[,] _playField = GeneratePlayField();
             _playField = PopulatePlayFieldWithMines(_playField);
             _playField = CalculateNeighboringMineCount(_playField);
@@ -41,18 +52,26 @@ namespace Multisweeper
 
         public Square[,] NewCustomSinglePlayerGame(int width, int height, int saturation)
         {
+            Reset();
+
             Square[,] _playField = GeneratePlayField(width, height);
-            _playField = PopulatePlayFieldWithMines(_playField, saturation);
+            _playField = PopulatePlayFieldWithMines(_playField, width, height, saturation);
             _playField = CalculateNeighboringMineCount(_playField);
 
             return _playField;
         }
 
-
+        public void Reset()
+        {
+            takingFirstMove = true;
+            gameEnded = false;
+            //totalMines = 0;
+        }
 
         public Square[,] GeneratePlayField()
         {
             Square[,] _playField = new Square[xSizeDefault, ySizeDefault];
+            totalSquares = xSizeDefault * ySizeDefault;
 
             for (int i = 0; i < _playField.GetLength(0); i++)
             {
@@ -71,6 +90,7 @@ namespace Multisweeper
         public Square[,] GeneratePlayField(int xSize, int ySize)
         {
             Square [,] _playField = new Square[xSize, ySize];
+            totalSquares = xSize * ySize;
 
             for (int i = 0; i < _playField.GetLength(0); i++)
             {
@@ -87,43 +107,98 @@ namespace Multisweeper
         }
 
 
-        // This has an overload instead of setting saturation to our game's default 
-        // if specified saturation is default int value of 0.
-        // This way players can specify a saturation of 0 and actually get a board with no mines.
         public Square[,] PopulatePlayFieldWithMines(Square[,] _playField)
         {
+            int currentMineCount = 0;
+            int mineX;
+            int mineY;
 
-            for (int i = 0; i < _playField.GetLength(0); i++)
-            {
-                for (int j = 0; j < _playField.GetLength(1); j++)
+            while (currentMineCount < defaultMineCount) { 
+                mineX = random.Next(0, xSizeDefault);
+                mineY = random.Next(0, ySizeDefault);
+
+                if (_playField[mineX, mineY].isMined == false)
                 {
-                    int isMined = random.Next(0, 100);
-
-                    if (isMined <= defaultMineSaturation)
-                        _playField[i, j].isMined = true;
-                    else
-                        _playField[i, j].isMined = false;
+                    _playField[mineX, mineY].isMined = true;
+                    currentMineCount++;
                 }
+                else
+                    continue;
+
             }
+
+            unflaggedMinesSupposed = defaultMineCount;
+            unflaggedMinesActual = defaultMineCount;
+            safeSquaresRemaining = totalSquares - defaultMineCount;
+            Debugger.Break();
+
+            //for (int i = 0; i < _playField.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < _playField.GetLength(1); j++)
+            //    {
+            //        int isMined = random.Next(0, 100);
+
+            //        if (isMined <= defaultMineSaturationThreshold)
+            //        {
+            //            _playField[i, j].isMined = true;
+            //            totalMines++;
+            //        }
+            //        else
+            //            _playField[i, j].isMined = false;
+            //    }
+            //}
+
+            //unflaggedMinesSupposed = totalMines;
+            //unflaggedMinesActual = totalMines;
+            //safeSquaresRemaining = totalSquares - totalMines;
 
             return _playField;
         }
 
-        public Square[,] PopulatePlayFieldWithMines(Square[,] _playField, int specifiedSaturation)
+        public Square[,] PopulatePlayFieldWithMines(Square[,] _playField, int width, int height, int specifiedMineCount)
         {
+            int currentMineCount = 0;
+            int mineX;
+            int mineY;
 
-            for (int i = 0; i < _playField.GetLength(0); i++)
+            while (currentMineCount < specifiedMineCount)
             {
-                for (int j = 0; j < _playField.GetLength(1); j++)
-                {
-                    int isMined = random.Next(0, 100);
+                mineX = random.Next(0, width);
+                mineY = random.Next(0, height);
 
-                    if (isMined <= specifiedSaturation)
-                        _playField[i, j].isMined = true;
-                    else
-                        _playField[i, j].isMined = false;
+                if (_playField[mineX, mineY].isMined == false)
+                {
+                    _playField[mineX, mineY].isMined = true;
+                    currentMineCount++;
                 }
+                else
+                    continue;
+
             }
+
+            unflaggedMinesSupposed = specifiedMineCount;
+            unflaggedMinesActual = specifiedMineCount;
+            safeSquaresRemaining = totalSquares - specifiedMineCount;
+
+            //for (int i = 0; i < _playField.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < _playField.GetLength(1); j++)
+            //    {
+            //        int isMined = random.Next(0, 100);
+
+            //        if (isMined <= specifiedSaturationThreshold)
+            //        {
+            //            _playField[i, j].isMined = true;
+            //            totalMines++;
+            //        }
+            //        else
+            //            _playField[i, j].isMined = false;
+            //    }
+            //}
+
+            //unflaggedMinesSupposed = totalMines;
+            //unflaggedMinesActual = totalMines;
+            //safeSquaresRemaining = totalSquares - totalMines;
 
             return _playField;
         }
@@ -152,7 +227,6 @@ namespace Multisweeper
                     }
 
                     _playField[i, j].neighboringMines = neighboringMines;
-                    _playField[i, j].Content = neighboringMines;
                 }
             }
             
@@ -161,10 +235,18 @@ namespace Multisweeper
 
   
 
+
         public void UncoverSingleSquare(Square square)
         {
             square.isUncovered = true;
-            square.Background = Brushes.Blue;
+            square.Background = Brushes.DarkGray;
+            safeSquaresRemaining--;
+
+            if (square.neighboringMines != 0)
+            {
+                square.Content = square.neighboringMines;
+            }
+
         }
 
         public void ClearZeroes(Square centerSquare)
@@ -180,7 +262,8 @@ namespace Multisweeper
                         continue;
 
                     Square thisSquare = MainWindow.playField[i, j];
-                    if (thisSquare.isMined)
+
+                    if (thisSquare.isMined || thisSquare.isUncovered)
                         continue;
 
                     if (thisSquare.neighboringMines == 0 && thisSquare.isUncovered == false)
@@ -204,14 +287,41 @@ namespace Multisweeper
         {
             gameEnded = true;
 
-            MessageBoxResult result = MessageBox.Show("I'm a temporary game over screen!",
-                                          "Game Over",
-                                          MessageBoxButton.OK,
-                                          MessageBoxImage.Exclamation);
+            //MessageBoxResult result = MessageBox.Show("I'm a temporary game over screen!",
+            //                              "Game Over",
+            //                              MessageBoxButton.OK,
+            //                              MessageBoxImage.Exclamation);
         }
 
+        public void CheckVictoryConditions()
+        {
 
+            if (takingFirstMove)
+            {
+                takingFirstMove = false;
+            }
+
+
+
+            if (unflaggedMinesActual == 0 && unflaggedMinesSupposed == 0)
+            {
+                WinGame();
+            }
+            if (safeSquaresRemaining == 0)
+            {
+                WinGame();
+            }
+        }
        
+        void WinGame()
+        {
+            gameEnded = true;
+
+            MessageBoxResult result = MessageBox.Show("I'm a temporary victory screen!",
+                                          "Success",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Information);
+        }
 
     }
 }

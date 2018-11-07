@@ -12,7 +12,8 @@ namespace Multisweeper
 {
     public class Square : Button
     {
-        
+        GameManager gameManager = MainWindow.gameManager;
+
         public int squareWidth = 17;
         public int squareHeight = 17;
 
@@ -23,16 +24,17 @@ namespace Multisweeper
         public int neighboringMines;
         public bool isMined;
         public bool isUncovered;
-        public bool markedForUncovering;
         public int xCoord;
         public int yCoord;
 
-        // 0 - unmarked, 1 - unsure, 2 - mined
+        // 0 - unmarked, 1 - mined, 2 - unsure
         public int flag = 0;
 
-
+        
         public Square()
         {
+            gameManager = MainWindow.gameManager;
+
             Width = squareWidth;
             Height = squareHeight;
 
@@ -42,18 +44,33 @@ namespace Multisweeper
 
         void LeftClick(object sender, RoutedEventArgs e)
         {
-            //Debugger.Break();
             Dig();
+            gameManager.CheckVictoryConditions();
         }
 
         void RightClick(object sender, RoutedEventArgs e)
         {
-            //Debugger.Break();
             CycleFlag();
+            gameManager.CheckVictoryConditions();
         }
 
-        void Dig()
+        public void Dig()
         {
+            if (gameManager.gameEnded)
+                return;
+
+            if (gameManager.takingFirstMove && gameManager.usefulFirstMove)
+            {
+                if (neighboringMines != 0)
+                {
+                    //gameManager.totalMines = 0;
+                    ((MainWindow)System.Windows.Application.Current.MainWindow).MakeFirstMoveUseful(xCoord, yCoord);
+                    return;
+                }
+                
+            }
+
+            gameManager.takingFirstMove = false;
 
             // 0 is unmarked.
             if (isUncovered || flag != 0)
@@ -63,45 +80,67 @@ namespace Multisweeper
 
             if (isMined)
             {
-                MainWindow.gameManager.GameOver(this);
-
+                gameManager.GameOver(this);
+                ((MainWindow)System.Windows.Application.Current.MainWindow).RevealMines(this);
                 return;
             }
 
             if (neighboringMines >= 1)
             {
-                MainWindow.gameManager.UncoverSingleSquare(this);
+                gameManager.UncoverSingleSquare(this);
             }
             else if (neighboringMines == 0)
             {
-                MainWindow.gameManager.ClearZeroes(this);
+                gameManager.ClearZeroes(this);
             }
-
 
         }
 
         void CycleFlag()
         {
-            if (flag == 2)
+            if (gameManager.gameEnded)
+                return;
+            if (isUncovered)
+                return;
+
+            if (flag == 0)
+            {
+                flag = 1;
+
+                gameManager.unflaggedMinesSupposed--;
+                if (isMined)
+                {
+                    gameManager.unflaggedMinesActual--;
+                }
+            }
+            else if (flag == 1)
+            {
                 flag = 0;
-            else
-                flag++;
+
+                gameManager.unflaggedMinesSupposed++;
+                if (isMined)
+                {
+                    gameManager.unflaggedMinesActual++;
+                }
+
+            }
+
+            ((MainWindow)System.Windows.Application.Current.MainWindow).unflaggedMinesCounter.Text = Convert.ToString(gameManager.unflaggedMinesSupposed);
 
             switch (flag)
             {
                 case 0:
-                    Background = Brushes.LightGray;
+                    Background = Brushes.Gainsboro;
                     break;
                 case 1:
                     Background = Brushes.Yellow;
                     break;
-                case 2:
-                    Background = Brushes.Orange;
-                    break;
+                    // Warning flag
+                //case 2:
+                //    Background = Brushes.Yellow;
+                //    break;
             }
         }
-
-
         
     }
 }
