@@ -10,14 +10,20 @@
     <StackPanel Orientation="Vertical">
         <Menu DockPanel.Dock="Top">
 
-            <MenuItem Header="Singleplayer">
-                <MenuItem Header="New Game" Click="StartDefaultSingplePlayer"/>
-                <MenuItem Header="New Custom Game" Click="ConfigureCustomSinglePlayer"/>
+            <MenuItem Header="Game">
+                <MenuItem Header="New Singpleplayer" Click="StartDefaultSingplePlayer"/>
+                <MenuItem Header="New Custom Singleplayer" Click="ConfigureCustomSinglePlayer"/>
+                <Separator/>
+                <MenuItem Header="Host Multiplayer" Click="HostMultiplayer"/>
+                <MenuItem Header="Join Multiplayer" Click="JoinMultiplayer"/>
             </MenuItem>
 
-            <MenuItem Header="Multiplayer">
-                <MenuItem Header="Host Game" Click="HostMultiplayer"/>
-                <MenuItem Header="Join Game" Click="JoinMultiplayer"/>
+            <MenuItem Header="Options">
+                <MenuItem Header="Ensure useful first move" IsCheckable="True" IsChecked="True" Click="ToggleUsefulFirstMove"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Easy" Tag="difficulty" IsCheckable="True" Click="SetDifficulty"/>
+                <MenuItem Header="Intermediate" Tag="difficulty" IsCheckable="true" IsChecked="True" Click="SetDifficulty"/>
+                <MenuItem Header="Hard" Tag="difficulty" IsCheckable="true" Click="SetDifficulty"/>
             </MenuItem>
 
         </Menu>

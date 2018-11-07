@@ -20,13 +20,13 @@ namespace Multisweeper
         public int unflaggedMinesActual;
 
         int safeSquaresRemaining;
-
-        int xSizeDefault = 10;
-        int ySizeDefault = 10;
         int totalSquares;
 
+        int xSize = 15;
+        int ySize = 15;
+        int mineCount = 25;
+
         //int defaultMineSaturationThreshold = 10;
-        int defaultMineCount = 1;
 
         Queue<Square> uncoverQueue = new Queue<Square>();
         Queue<Square> uncoverZeroesQueue = new Queue<Square>();
@@ -38,6 +38,30 @@ namespace Multisweeper
         {
 
         }
+
+
+        public void SetDifficulty(string difficulty)
+        {
+            switch (difficulty)
+            {
+                case "Easy":
+                    xSize = 10;
+                    ySize = 10;
+                    mineCount = 10;
+                    break;
+                case "Intermediate":
+                    xSize = 20;
+                    ySize = 20;
+                    mineCount = 20;
+                    break;
+                case "Hard":
+                    xSize = 10;
+                    ySize = 10;
+                    mineCount = 10;
+                    break;
+            }
+        }
+
 
         public Square[,] NewDefaultGame()
         {
@@ -70,8 +94,8 @@ namespace Multisweeper
 
         public Square[,] GeneratePlayField()
         {
-            Square[,] _playField = new Square[xSizeDefault, ySizeDefault];
-            totalSquares = xSizeDefault * ySizeDefault;
+            Square[,] _playField = new Square[xSize, ySize];
+            totalSquares = xSize * ySize;
 
             for (int i = 0; i < _playField.GetLength(0); i++)
             {
@@ -113,9 +137,9 @@ namespace Multisweeper
             int mineX;
             int mineY;
 
-            while (currentMineCount < defaultMineCount) { 
-                mineX = random.Next(0, xSizeDefault);
-                mineY = random.Next(0, ySizeDefault);
+            while (currentMineCount < mineCount) { 
+                mineX = random.Next(0, xSize);
+                mineY = random.Next(0, ySize);
 
                 if (_playField[mineX, mineY].isMined == false)
                 {
@@ -127,10 +151,9 @@ namespace Multisweeper
 
             }
 
-            unflaggedMinesSupposed = defaultMineCount;
-            unflaggedMinesActual = defaultMineCount;
-            safeSquaresRemaining = totalSquares - defaultMineCount;
-            Debugger.Break();
+            unflaggedMinesSupposed = mineCount;
+            unflaggedMinesActual = mineCount;
+            safeSquaresRemaining = totalSquares - mineCount;
 
             //for (int i = 0; i < _playField.GetLength(0); i++)
             //{

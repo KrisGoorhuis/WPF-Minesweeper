@@ -43,61 +43,12 @@ namespace Multisweeper
             DrawPlayField(playField);
         }
 
-        public void MakeFirstMoveUseful(int x, int y)
-        {
-            if (previousGameMode == "default")
-            {
-                playField = gameManager.NewDefaultGame();
-                DrawPlayField(playField);
-            }
-
-            if (previousGameMode == "custom")
-            {
-                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
-                DrawPlayField(playField);
-            }
-
-            if (previousGameMode == "multiplayer")
-            {
-
-            }
-
-            playField[x, y].Dig();
-        }
-
-        public void SmileyButton(object sender, RoutedEventArgs e)
-        {
-            if (previousGameMode == "default")
-            {
-                playField = gameManager.NewDefaultGame();
-                DrawPlayField(playField);
-            }
-
-            if (previousGameMode == "custom")
-            {
-                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
-                DrawPlayField(playField);
-            }
-
-            if (previousGameMode == "multiplayer")
-            {
-
-            }
-        }
-
+        // Game start methods
         void StartDefaultSingplePlayer(object sender, RoutedEventArgs e)
         {
             previousGameMode = "default";
             playField = gameManager.NewDefaultGame();
             DrawPlayField(playField);
-        }
-
-        public void ConfigureCustomSinglePlayer(object sender, RoutedEventArgs e)
-        {
-            // TODO: Input must be an integer between 0 and 100; Validate!
-            CustomSinglePlayer window = new CustomSinglePlayer();
-            window.Owner = this;
-            window.ShowDialog();
         }
 
         public void StartCustomSinglePlayer(int width, int height, int mines)
@@ -123,9 +74,83 @@ namespace Multisweeper
 
         }
 
-       
 
 
+
+        public void SmileyButton(object sender, RoutedEventArgs e)
+        {
+            if (previousGameMode == "default")
+            {
+                playField = gameManager.NewDefaultGame();
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "custom")
+            {
+                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "multiplayer")
+            {
+
+            }
+        }
+
+
+        // Options
+        void ToggleUsefulFirstMove(object sender, RoutedEventArgs e)
+        {
+            if (gameManager.usefulFirstMove == true)
+                gameManager.usefulFirstMove = false;
+            else
+                gameManager.usefulFirstMove = true;
+        }
+
+        void SetDifficulty(object sender, RoutedEventArgs e)
+        {
+            MenuItem mi = sender as MenuItem;
+            gameManager.SetDifficulty(mi.Header as string);
+
+            MenuItem parent = mi.Parent as MenuItem;
+            foreach (object subitem in parent.Items)
+            {
+                if (subitem is MenuItem)
+                {
+                    MenuItem submenu = subitem as MenuItem;
+                    if (submenu.Tag as string == "difficulty" && submenu.Header as string != mi.Header as string)
+                    {
+                        submenu.IsChecked = false;
+                    }
+                }
+            }
+        }
+
+        public void MakeFirstMoveUseful(int x, int y)
+        {
+            if (previousGameMode == "default")
+            {
+                playField = gameManager.NewDefaultGame();
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "custom")
+            {
+                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
+                DrawPlayField(playField);
+            }
+
+            if (previousGameMode == "multiplayer")
+            {
+
+            }
+
+            playField[x, y].Dig();
+        }
+
+
+
+        // Visual bits
         public void DrawPlayField(Square[,] playField)
         {
             for (int i = 0; i < playField.GetLength(0); i++)
@@ -159,7 +184,6 @@ namespace Multisweeper
             Application.Current.MainWindow.Height = playField[0, 0].squareHeight * (playField.GetLength(1) + 1) + topBar.Height + 40; // 40 - Don't know where some of the height is coming from yet. Let's fudge it.
         }
 
-
         public void RevealMines(Square clickedMined)
         {
             for (int i = 0; i < playField.GetLength(0); i++)
@@ -176,6 +200,15 @@ namespace Multisweeper
                 }
             }
         }
+
+        public void ConfigureCustomSinglePlayer(object sender, RoutedEventArgs e)
+        {
+            // TODO: Validate input!
+            CustomSinglePlayer window = new CustomSinglePlayer();
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
 
     }
 }

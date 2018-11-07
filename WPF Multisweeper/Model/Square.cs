@@ -44,21 +44,24 @@ namespace Multisweeper
 
         void LeftClick(object sender, RoutedEventArgs e)
         {
+            if (gameManager.gameEnded)
+                return;
+
             Dig();
             gameManager.CheckVictoryConditions();
         }
 
         void RightClick(object sender, RoutedEventArgs e)
         {
+            if (gameManager.gameEnded)
+                return;
+
             CycleFlag();
             gameManager.CheckVictoryConditions();
         }
 
         public void Dig()
         {
-            if (gameManager.gameEnded)
-                return;
-
             if (gameManager.takingFirstMove && gameManager.usefulFirstMove)
             {
                 if (neighboringMines != 0)
@@ -67,7 +70,6 @@ namespace Multisweeper
                     ((MainWindow)System.Windows.Application.Current.MainWindow).MakeFirstMoveUseful(xCoord, yCoord);
                     return;
                 }
-                
             }
 
             gameManager.takingFirstMove = false;
@@ -98,8 +100,6 @@ namespace Multisweeper
 
         void CycleFlag()
         {
-            if (gameManager.gameEnded)
-                return;
             if (isUncovered)
                 return;
 
