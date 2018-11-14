@@ -15,25 +15,28 @@ using System.Windows.Shapes;
 namespace Multisweeper
 {
     /// <summary>
-    /// Interaction logic for CustomSinglePlayer.xaml
+    /// Interaction logic for JoinMultiplayerSetup.xaml
     /// </summary>
-    public partial class CustomSinglePlayer : Window
+    public partial class JoinMultiplayerSetup : Window
     {
-        public CustomSinglePlayer()
+        public JoinMultiplayerSetup()
         {
             InitializeComponent();
         }
 
 
-        void StartCustomSinglePlayer(object sender, RoutedEventArgs e)
+        void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        void ConnectToGame(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = this.Owner as MainWindow;
+            
 
-            int width = Convert.ToInt32(customWidthField.Text);
-            int height = Convert.ToInt32(customHeightField.Text);
-            int mineCount = Convert.ToInt32(customMineCountField.Text);
 
-            mainWindow.StartCustomSinglePlayer(width, height, mineCount);
+            mainWindow.JoinMultiplayerGame();
 
             this.Close();
         }

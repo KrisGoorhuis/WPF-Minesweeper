@@ -24,7 +24,11 @@ namespace Multisweeper
 
         int xSize = 15;
         int ySize = 15;
-        int mineCount = 25;
+        int mineCount = 30;
+
+        string gameOverFace = "x_x";
+        string winFace = ":D";
+        string normalFace = ":)";
 
         //int defaultMineSaturationThreshold = 10;
 
@@ -50,9 +54,9 @@ namespace Multisweeper
                     mineCount = 10;
                     break;
                 case "Intermediate":
-                    xSize = 20;
-                    ySize = 20;
-                    mineCount = 20;
+                    xSize = 15;
+                    ySize = 15;
+                    mineCount = 30;
                     break;
                 case "Hard":
                     xSize = 10;
@@ -184,7 +188,7 @@ namespace Multisweeper
             int mineX;
             int mineY;
 
-            while (currentMineCount < specifiedMineCount)
+            while (currentMineCount <= specifiedMineCount)
             {
                 mineX = random.Next(0, width);
                 mineY = random.Next(0, height);
@@ -286,7 +290,7 @@ namespace Multisweeper
 
                     Square thisSquare = MainWindow.playField[i, j];
 
-                    if (thisSquare.isMined || thisSquare.isUncovered)
+                    if (thisSquare.isUncovered)
                         continue;
 
                     if (thisSquare.neighboringMines == 0 && thisSquare.isUncovered == false)
@@ -306,9 +310,18 @@ namespace Multisweeper
         }
 
 
+
+        void SetSmiley(string face)
+        {
+            ((MainWindow)System.Windows.Application.Current.MainWindow).Smiley.Content = face;
+        }
+
+
         public void GameOver(Square trippedSquare)
         {
             gameEnded = true;
+
+            SetSmiley(gameOverFace);
 
             //MessageBoxResult result = MessageBox.Show("I'm a temporary game over screen!",
             //                              "Game Over",
@@ -324,8 +337,6 @@ namespace Multisweeper
                 takingFirstMove = false;
             }
 
-
-
             if (unflaggedMinesActual == 0 && unflaggedMinesSupposed == 0)
             {
                 WinGame();
@@ -339,12 +350,12 @@ namespace Multisweeper
         void WinGame()
         {
             gameEnded = true;
+            SetSmiley(winFace);
 
             MessageBoxResult result = MessageBox.Show("I'm a temporary victory screen!",
                                           "Success",
                                           MessageBoxButton.OK,
                                           MessageBoxImage.Information);
         }
-
     }
 }

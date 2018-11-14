@@ -6,14 +6,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{98F67B4B-8450-4CB7-A273-F8EF808BDA79}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WPF_Multisweeper</RootNamespace>
-    <AssemblyName>WPF Multisweeper</AssemblyName>
+    <RootNamespace>Multisweeper</RootNamespace>
+    <AssemblyName>Multisweeper</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,6 +38,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,10 +58,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\Multisweeper\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Multiplayer\GameHost.cs" />
+    <Compile Include="Model\Multiplayer\GameService.cs" />
+    <Compile Include="Model\Multiplayer\IGameHost.cs" />
+    <Compile Include="Model\Multiplayer\IGameService.cs" />
     <Compile Include="Model\UIArea.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Views\CustomSingleplayer.xaml.cs">
       <DependentUpon>CustomSingleplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JoinMultiplayerSetup.xaml.cs">
+      <DependentUpon>JoinMultiplayerSetup.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -75,6 +90,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CustomSingleplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JoinMultiplayerSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -97,6 +116,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\Multisweeper\GameService.wsdl" />
+    <None Include="Connected Services\Multisweeper\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -104,6 +127,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\Multisweeper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Multisweeper\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Multisweeper\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Multisweeper\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\Multisweeper\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

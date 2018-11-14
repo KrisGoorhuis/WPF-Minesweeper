@@ -15,7 +15,7 @@
                 <MenuItem Header="New Custom Singleplayer" Click="ConfigureCustomSinglePlayer"/>
                 <Separator/>
                 <MenuItem Header="Host Multiplayer" Click="HostMultiplayer"/>
-                <MenuItem Header="Join Multiplayer" Click="JoinMultiplayer"/>
+                <MenuItem Header="Join Multiplayer" Click="OpenJoinSetup"/>
             </MenuItem>
 
             <MenuItem Header="Options">

@@ -22,9 +22,9 @@ namespace Multisweeper
     /// </summary>
     public partial class MainWindow
     {
-
         public static GameManager gameManager = new GameManager();
         public static Square[,] playField;
+        public string face = ":)";
 
         string previousGameMode = "default"; // default, custom, multiplayer
         //int previousCustomMineSaturation;
@@ -66,19 +66,26 @@ namespace Multisweeper
 
         void HostMultiplayer(object sender, RoutedEventArgs e)
         {
+            GameHost gameHost = new GameHost();
 
         }
 
-        void JoinMultiplayer(object sender, RoutedEventArgs e)
+        void OpenJoinSetup(object sender, RoutedEventArgs e)
+        {
+            JoinMultiplayerSetup window = new JoinMultiplayerSetup();
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public void JoinMultiplayerGame()
         {
 
         }
-
-
 
 
         public void SmileyButton(object sender, RoutedEventArgs e)
         {
+
             if (previousGameMode == "default")
             {
                 playField = gameManager.NewDefaultGame();
@@ -126,6 +133,7 @@ namespace Multisweeper
             }
         }
 
+        // Called by Dig() in the Square class.
         public void MakeFirstMoveUseful(int x, int y)
         {
             if (previousGameMode == "default")
@@ -163,7 +171,7 @@ namespace Multisweeper
                     Canvas.SetTop(square, square.squareHeight * j);
 
                     
-
+                    // Reveal everything on game start:
                     //if (!square.isMined && square.isUncovered)
                     //{
                     //    square.Background = Brushes.Blue;
