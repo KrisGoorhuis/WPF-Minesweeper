@@ -24,6 +24,7 @@ namespace Multisweeper
     {
         public static GameManager gameManager = new GameManager();
         public static Square[,] playField;
+
         public string face = ":)";
 
         string previousGameMode = "default"; // default, custom, multiplayer
@@ -66,8 +67,11 @@ namespace Multisweeper
 
         void HostMultiplayer(object sender, RoutedEventArgs e)
         {
-            GameHost gameHost = new GameHost();
+            //GameHost gameHost = new GameHost();
 
+            HostMultiplayer window = new HostMultiplayer();
+            window.Owner = this;
+            window.Show();
         }
 
         void OpenJoinSetup(object sender, RoutedEventArgs e)
@@ -169,7 +173,7 @@ namespace Multisweeper
 
                     Canvas.SetLeft(square, 0 + (square.squareWidth * i));
                     Canvas.SetTop(square, square.squareHeight * j);
-
+                    // Square width is set in the Square class constructor - it's a property of its parent Button class.
                     
                     // Reveal everything on game start:
                     //if (!square.isMined && square.isUncovered)

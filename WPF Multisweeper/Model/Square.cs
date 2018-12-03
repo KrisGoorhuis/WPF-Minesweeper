@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Multisweeper
 {
+    [Serializable]
     public class Square : Button
     {
         GameManager gameManager = MainWindow.gameManager;
@@ -35,23 +37,50 @@ namespace Multisweeper
         {
             gameManager = MainWindow.gameManager;
 
-            Width = squareWidth;
-            Height = squareHeight;
+            Width = squareWidth; // These are properties of the parent Button class I think.
+            Height = squareHeight; // Squares get their width here instead of DrawPlayField.
 
-            PreviewMouseLeftButtonDown += LeftClick;
-            MouseRightButtonDown += RightClick;
+            PreviewMouseLeftButtonDown += AnticipationFace;
+
+            PreviewMouseLeftButtonUp += LeftClickRelease;
+            MouseRightButtonUp += RightClickRelease;
         }
 
-        void LeftClick(object sender, RoutedEventArgs e)
+        void AnticipationFace(object sender, RoutedEventArgs e)
         {
             if (gameManager.gameEnded)
                 return;
 
-            Dig();
-            gameManager.CheckVictoryConditions();
+            gameManager.SetSmiley(":O");
         }
 
-        void RightClick(object sender, RoutedEventArgs e)
+        void LeftClickRelease(object sender, RoutedEventArgs e)
+        {
+            if (gameManager.gameEnded)
+                return;
+
+            gameManager.SetSmiley(":)");
+
+
+            if (gameManager.isMultiplayer)
+            {
+                Point pointToWindow = Mouse.GetPosition(this);
+                Point pointToScreen = PointToScreen(pointToWindow);
+
+                PipeClient.SendClickToHost(pointToScreen);
+                // Send dig command up the pipe.
+            }
+
+            Dig();
+            gameManager.CheckVictoryConditions();
+
+            if (gameManager.isMultiplayer)
+            {
+                //gameManager.UpdatePeerBoards();
+            }
+        }
+
+        void RightClickRelease(object sender, RoutedEventArgs e)
         {
             if (gameManager.gameEnded)
                 return;
@@ -60,8 +89,10 @@ namespace Multisweeper
             gameManager.CheckVictoryConditions();
         }
 
+
         public void Dig()
         {
+
             if (gameManager.takingFirstMove && gameManager.usefulFirstMove)
             {
                 if (neighboringMines != 0)

@@ -58,19 +58,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Connected Services\Multisweeper\Reference.cs">
+    <Compile Include="Connected Services\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Model\Multiplayer\IClient.cs" />
+    <Compile Include="Model\Multiplayer\GameClient.cs" />
     <Compile Include="Model\Multiplayer\GameHost.cs" />
-    <Compile Include="Model\Multiplayer\GameService.cs" />
-    <Compile Include="Model\Multiplayer\IGameHost.cs" />
-    <Compile Include="Model\Multiplayer\IGameService.cs" />
+    <Compile Include="Model\Multiplayer\HostService.cs" />
+    <Compile Include="Model\Multiplayer\IHostService.cs" />
+    <Compile Include="Model\Multiplayer\Pipes Solution\PipeClient.cs" />
+    <Compile Include="Model\Multiplayer\Pipes Solution\PipeHost.cs" />
     <Compile Include="Model\UIArea.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Views\CustomSingleplayer.xaml.cs">
       <DependentUpon>CustomSingleplayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HostMultiplayer.xaml.cs">
+      <DependentUpon>HostMultiplayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JoinMultiplayerSetup.xaml.cs">
       <DependentUpon>JoinMultiplayerSetup.xaml</DependentUpon>
@@ -90,6 +96,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CustomSingleplayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HostMultiplayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,8 +126,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\Multisweeper\GameService.wsdl" />
-    <None Include="Connected Services\Multisweeper\item.xsd">
+    <None Include="Connected Services\ServiceReference1\HostService.wsdl" />
+    <None Include="Connected Services\ServiceReference1\item.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -132,19 +142,19 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\Multisweeper\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Multisweeper\item.disco" />
+    <None Include="Connected Services\ServiceReference1\item.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Multisweeper\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Multisweeper\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\Multisweeper\Reference.svcmap">
+    <None Include="Connected Services\ServiceReference1\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

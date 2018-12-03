@@ -18,8 +18,8 @@
                 <TextBlock Margin="10, 0, 0, 10" FontSize="10">Ex: "http://localhost:8080/"</TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Margin="5" Padding="5" Click="ConnectToGame">Connect</Button>
-                <Button Margin="5" Padding="5" Click="CloseWindow">Cancel</Button>
+                <Button Margin="5" Padding="3" Click="JoinGame">Connect</Button>
+                <Button Margin="5" Padding="3" Click="CloseWindow">Cancel</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

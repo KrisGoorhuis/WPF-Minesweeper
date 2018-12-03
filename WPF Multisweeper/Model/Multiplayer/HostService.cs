@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace Multisweeper
 {
-    //[ServiceContract]
-    class GameService : IGameService
+
+    class HostService : IHostService
     {
-        //[OperationContract]
-        public void DoWork()
-        {
-           
-        }
-
-        public void ConnectToHost()
+     
+        public void TransferGameBoard()
         {
 
         }
+
     }
 }

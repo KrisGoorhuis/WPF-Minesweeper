@@ -1,0 +1,38 @@
+﻿<Window x:Class="Multisweeper.HostMultiplayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Multisweeper"
+        mc:Ignorable="d"
+        Title="HostMultiplayer" Height="153.334" Width="507">
+    <Grid Margin="0">
+        <StackPanel Margin="10, 5, 10, 5" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
+                        <TextBlock Width="45" Padding="0, 0, 5, 0">Width:</TextBlock>
+                        <TextBox HorizontalAlignment="Right" Name="customWidthField">25</TextBox>
+                    </StackPanel>
+                    <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
+                        <TextBlock Width="45" Padding="0, 0, 5, 0">Height:</TextBlock>
+                        <TextBox Name="customHeightField">25</TextBox>
+                    </StackPanel>
+                    <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
+                        <TextBlock Width="45" Padding="0, 0, 5, 0">Mines:</TextBlock>
+                        <TextBox Name="customMineCountField">30</TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Name="ConnectionStatus" Orientation="Vertical" HorizontalAlignment="Right" Margin="20, 0, 0, 0" >
+                    <TextBlock Text="Press Host to begin"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="0, 10, 0, 0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Padding="3" Margin="5, 5, 20, 5" Name="HostButton" Click="BeginHosting">Host</Button>
+                <Button Padding="3" Margin="20, 5, 5, 5" Click="CloseWindow">Cancel</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+</Window>

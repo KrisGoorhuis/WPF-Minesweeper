@@ -15,6 +15,7 @@ namespace Multisweeper
         public bool gameEnded = false; // Disallowing clicks handled by square class.
         public bool takingFirstMove = true;
         public bool usefulFirstMove = true;
+        public bool isMultiplayer = false;
         //public int totalMines = 0;
         public int unflaggedMinesSupposed; // Not necessarily accurate.
         public int unflaggedMinesActual;
@@ -26,7 +27,7 @@ namespace Multisweeper
         int ySize = 15;
         int mineCount = 30;
 
-        string gameOverFace = "x_x";
+        string gameOverFace = "x__x"; // First underscore isn't visible. Don't know why.
         string winFace = ":D";
         string normalFace = ":)";
 
@@ -91,6 +92,7 @@ namespace Multisweeper
 
         public void Reset()
         {
+            SetSmiley(normalFace);
             takingFirstMove = true;
             gameEnded = false;
             //totalMines = 0;
@@ -311,7 +313,7 @@ namespace Multisweeper
 
 
 
-        void SetSmiley(string face)
+        public void SetSmiley(string face)
         {
             ((MainWindow)System.Windows.Application.Current.MainWindow).Smiley.Content = face;
         }

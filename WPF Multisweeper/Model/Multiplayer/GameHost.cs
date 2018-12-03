@@ -2,71 +2,94 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Multisweeper
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "GameHost" in both code and config file together.
-    public class GameHost : IGameHost
+    public class GameHost
     {
-        ServiceHost gameHost;
+        public ServiceHost host;
+
+
+        //Socket version
+        //IPAddress ip;
+        //TcpListener server;
+        //TcpClient client;
 
         public GameHost()
         {
-            try
-            {
-                // typeof(HostService) ?
-                // What's best practice?
-                gameHost = new ServiceHost(typeof(GameService), new Uri("http://localhost:8080/"));
 
-                // One endpoint per address is added if no endpoints are specified. We have an endpoint by this line.
-                //ServiceEndpoint gameEndpoint = gameHost.AddServiceEndpoint(typeof(IGameService), new NetTcpBinding(), "net.tcp://localhost:8000/GameService");
 
-                // .Faulted is an event. This is essentially a catch, right?
-                gameHost.Faulted += GameHost_Faulted;
+            // Socket version
+            //ip = Dns.GetHostEntry("localhost").AddressList[0];
+            //server = new TcpListener(ip, 8080);
+            //client = default(TcpClient);
 
-                gameHost.Open();
-                Debug.WriteLine("test line!");
-                Console.WriteLine("The Product service is running and is listening on:");
-
-                ////Console.WriteLine("{0} ({1})", gameHost.Address.ToString(), gameHost.Binding.Name);
-                MessageBoxResult box = MessageBox.Show("Should be listening now",
-                                          "Success",
-                                          MessageBoxButton.OK,
-                                          MessageBoxImage.Information);
-            
-            }
-
-            finally
-            {
-                if (gameHost.State == CommunicationState.Faulted)
-
-                {
-                    gameHost.Abort();
-                }
-
-                else
-
-                {
-                    //gameHost.Close();
-                }
-            }
+            //StartServer();
         }
-        public void DoWork()
+
+
+        public void StartHostService()
         {
+            host = new ServiceHost(typeof(HostService));
+
+            host.Open();
+         
 
         }
 
-        static void GameHost_Faulted(object sender, System.EventArgs e)
-        {
-            MessageBoxResult box = MessageBox.Show("Faulted somehow",
-                                          "Faulted",
-                                          MessageBoxButton.OK,
-                                          MessageBoxImage.Information);
-        }
+
+
+
+
+        // Socket version
+        //public async void StartServer()
+        //{
+        //    try
+        //    {
+        //        server.Start();
+        //        Console.WriteLine("Server started on {0}:8080", ip);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.ToString());
+        //    }
+
+        //    //await AsyncListenForClients();
+
+        //    //Console.WriteLine("Client connected");
+        //}
+
+        //public async Task AsyncListenForClients()
+        //{
+
+        //    await Task.Run(() =>
+        //    {
+        //        client = server.AcceptTcpClient();
+        //    });
+
+        //    byte[] receivedBuffer = new byte[100];
+        //    NetworkStream stream = client.GetStream();
+
+        //    stream.Read(receivedBuffer, 0, receivedBuffer.Length);
+
+        //    string message = Encoding.ASCII.GetString(receivedBuffer, 0, receivedBuffer.Length);
+
+        //    Console.WriteLine(message);
+
+        //    return;
+        //}
+
+       
     }
 }
