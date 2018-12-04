@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Multisweeper"
         mc:Ignorable="d"
         Padding="0" 
-        Title="MultiSweeper" MinHeight="200" MinWidth="100">
+        Title="Minesweeper" MinHeight="200" MinWidth="100">
     <StackPanel Orientation="Vertical">
         <Menu DockPanel.Dock="Top">
 
