@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multisweeper", "WPF Multisweeper\Multisweeper.csproj", "{98F67B4B-8450-4CB7-A273-F8EF808BDA79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Minesweeper", "WPF Multisweeper\WPF Minesweeper.csproj", "{98F67B4B-8450-4CB7-A273-F8EF808BDA79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

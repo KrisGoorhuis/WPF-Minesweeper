@@ -63,23 +63,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Model\Multiplayer\IClient.cs" />
-    <Compile Include="Model\Multiplayer\GameClient.cs" />
-    <Compile Include="Model\Multiplayer\GameHost.cs" />
-    <Compile Include="Model\Multiplayer\HostService.cs" />
-    <Compile Include="Model\Multiplayer\IHostService.cs" />
-    <Compile Include="Model\Multiplayer\Pipes Solution\PipeClient.cs" />
-    <Compile Include="Model\Multiplayer\Pipes Solution\PipeHost.cs" />
-    <Compile Include="Model\UIArea.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Views\CustomSingleplayer.xaml.cs">
       <DependentUpon>CustomSingleplayer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\HostMultiplayer.xaml.cs">
-      <DependentUpon>HostMultiplayer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\JoinMultiplayerSetup.xaml.cs">
-      <DependentUpon>JoinMultiplayerSetup.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -96,14 +82,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\CustomSingleplayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\HostMultiplayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\JoinMultiplayerSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

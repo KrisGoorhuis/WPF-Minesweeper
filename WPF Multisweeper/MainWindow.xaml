@@ -11,11 +11,9 @@
         <Menu DockPanel.Dock="Top">
 
             <MenuItem Header="Game">
-                <MenuItem Header="New Singpleplayer" Click="StartDefaultSingplePlayer"/>
-                <MenuItem Header="New Custom Singleplayer" Click="ConfigureCustomSinglePlayer"/>
+                <MenuItem Header="New Game" Click="SmileyButton"/>
+                <MenuItem Header="New Custom Game" Click="ConfigureCustomGame"/>
                 <Separator/>
-                <MenuItem Header="Host Multiplayer" Click="HostMultiplayer"/>
-                <MenuItem Header="Join Multiplayer" Click="OpenJoinSetup"/>
             </MenuItem>
 
             <MenuItem Header="Options">
@@ -30,7 +28,7 @@
 
         
 
-        <UniformGrid Rows="1" Columns="3" Name="topBar" Height="40">
+        <UniformGrid Rows="1" Columns="3" Name="topBar" Height="40" Margin="10, 0, 10, 0">
             <TextBlock Name="unflaggedMinesCounter" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left">
                 000
             </TextBlock>
@@ -40,9 +38,9 @@
                     :) 
                 </Button>
             </TextBlock>
-            
-            <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"> 
-                000 
+
+            <TextBlock Name="Timer" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                000
             </TextBlock>
         </UniformGrid>
 
@@ -50,4 +48,8 @@
 
         </Canvas>
     </StackPanel>
+    
 </Window>
+
+    
+    

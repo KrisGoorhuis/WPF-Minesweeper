@@ -44,7 +44,11 @@ namespace Multisweeper
 
             PreviewMouseLeftButtonUp += LeftClickRelease;
             MouseRightButtonUp += RightClickRelease;
+
+            
         }
+
+
 
         void AnticipationFace(object sender, RoutedEventArgs e)
         {
@@ -61,23 +65,8 @@ namespace Multisweeper
 
             gameManager.SetSmiley(":)");
 
-
-            if (gameManager.isMultiplayer)
-            {
-                Point pointToWindow = Mouse.GetPosition(this);
-                Point pointToScreen = PointToScreen(pointToWindow);
-
-                PipeClient.SendClickToHost(pointToScreen);
-                // Send dig command up the pipe.
-            }
-
             Dig();
             gameManager.CheckVictoryConditions();
-
-            if (gameManager.isMultiplayer)
-            {
-                //gameManager.UpdatePeerBoards();
-            }
         }
 
         void RightClickRelease(object sender, RoutedEventArgs e)
@@ -86,13 +75,16 @@ namespace Multisweeper
                 return;
 
             CycleFlag();
-            gameManager.CheckVictoryConditions();
+
+            if (!gameManager.takingFirstMove)
+            {
+                gameManager.CheckVictoryConditions();
+            }
         }
 
 
         public void Dig()
         {
-
             if (gameManager.takingFirstMove && gameManager.usefulFirstMove)
             {
                 if (neighboringMines != 0)
@@ -103,6 +95,7 @@ namespace Multisweeper
                 }
             }
 
+            gameManager.StartTimer();
             gameManager.takingFirstMove = false;
 
             // 0 is unmarked.

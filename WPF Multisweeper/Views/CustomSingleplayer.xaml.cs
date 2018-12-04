@@ -33,7 +33,7 @@ namespace Multisweeper
             int height = Convert.ToInt32(customHeightField.Text);
             int mineCount = Convert.ToInt32(customMineCountField.Text);
 
-            mainWindow.StartCustomSinglePlayer(width, height, mineCount);
+            mainWindow.StartCustomGame(width, height, mineCount);
 
             this.Close();
         }

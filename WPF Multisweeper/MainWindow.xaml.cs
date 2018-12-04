@@ -33,7 +33,6 @@ namespace Multisweeper
         int previousCustomWidth;
         int previousCustomHeight;
 
-        UIArea uiArea = new UIArea();
 
         public MainWindow()
         {
@@ -44,6 +43,10 @@ namespace Multisweeper
             DrawPlayField(playField);
         }
 
+
+
+
+
         // Game start methods
         void StartDefaultSingplePlayer(object sender, RoutedEventArgs e)
         {
@@ -52,9 +55,17 @@ namespace Multisweeper
             DrawPlayField(playField);
         }
 
-        public void StartCustomSinglePlayer(int width, int height, int mines)
+        public void ConfigureCustomGame(object sender, RoutedEventArgs e)
         {
-            playField = gameManager.NewCustomSinglePlayerGame(width, height, mines);
+            // TODO: Validate input!
+            CustomSinglePlayer window = new CustomSinglePlayer();
+            window.Owner = this;
+            window.ShowDialog();
+        }
+
+        public void StartCustomGame(int width, int height, int mines)
+        {
+            playField = gameManager.NewCustomGame(width, height, mines);
 
             previousGameMode = "custom";
             previousCustomWidth = width;
@@ -63,27 +74,6 @@ namespace Multisweeper
             //previousCustomMineSaturation = saturation;
 
             DrawPlayField(playField);
-        }
-
-        void HostMultiplayer(object sender, RoutedEventArgs e)
-        {
-            //GameHost gameHost = new GameHost();
-
-            HostMultiplayer window = new HostMultiplayer();
-            window.Owner = this;
-            window.Show();
-        }
-
-        void OpenJoinSetup(object sender, RoutedEventArgs e)
-        {
-            JoinMultiplayerSetup window = new JoinMultiplayerSetup();
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-        public void JoinMultiplayerGame()
-        {
-
         }
 
 
@@ -98,7 +88,7 @@ namespace Multisweeper
 
             if (previousGameMode == "custom")
             {
-                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
+                playField = gameManager.NewCustomGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
                 DrawPlayField(playField);
             }
 
@@ -107,6 +97,8 @@ namespace Multisweeper
 
             }
         }
+
+
 
 
         // Options
@@ -148,17 +140,14 @@ namespace Multisweeper
 
             if (previousGameMode == "custom")
             {
-                playField = gameManager.NewCustomSinglePlayerGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
+                playField = gameManager.NewCustomGame(previousCustomWidth, previousCustomHeight, previousCustomMines);
                 DrawPlayField(playField);
-            }
-
-            if (previousGameMode == "multiplayer")
-            {
-
             }
 
             playField[x, y].Dig();
         }
+
+
 
 
 
@@ -173,9 +162,9 @@ namespace Multisweeper
 
                     Canvas.SetLeft(square, 0 + (square.squareWidth * i));
                     Canvas.SetTop(square, square.squareHeight * j);
-                    // Square width is set in the Square class constructor - it's a property of its parent Button class.
+                    //      Square width is set in the Square class constructor - it's a property of its parent Button class.
                     
-                    // Reveal everything on game start:
+                    //      Reveal everything on game start:
                     //if (!square.isMined && square.isUncovered)
                     //{
                     //    square.Background = Brushes.Blue;
@@ -212,15 +201,5 @@ namespace Multisweeper
                 }
             }
         }
-
-        public void ConfigureCustomSinglePlayer(object sender, RoutedEventArgs e)
-        {
-            // TODO: Validate input!
-            CustomSinglePlayer window = new CustomSinglePlayer();
-            window.Owner = this;
-            window.ShowDialog();
-        }
-
-
     }
 }

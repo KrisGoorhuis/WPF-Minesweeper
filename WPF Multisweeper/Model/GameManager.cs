@@ -4,9 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Multisweeper
 {
@@ -22,6 +24,8 @@ namespace Multisweeper
 
         int safeSquaresRemaining;
         int totalSquares;
+
+        int gameDuration = 0;
 
         int xSize = 15;
         int ySize = 15;
@@ -60,9 +64,9 @@ namespace Multisweeper
                     mineCount = 30;
                     break;
                 case "Hard":
-                    xSize = 10;
-                    ySize = 10;
-                    mineCount = 10;
+                    xSize = 20;
+                    ySize = 20;
+                    mineCount = 75;
                     break;
             }
         }
@@ -79,7 +83,7 @@ namespace Multisweeper
             return _playField;
         }
 
-        public Square[,] NewCustomSinglePlayerGame(int width, int height, int saturation)
+        public Square[,] NewCustomGame(int width, int height, int saturation)
         {
             Reset();
 
@@ -92,10 +96,36 @@ namespace Multisweeper
 
         public void Reset()
         {
-            SetSmiley(normalFace);
             takingFirstMove = true;
             gameEnded = false;
+            SetSmiley(normalFace);
+
+            gameDuration = 0;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).Timer.Text = gameDuration.ToString();
+
             //totalMines = 0;
+        }
+
+        public void StartTimer()
+        {
+            Timer timer = new System.Timers.Timer(1000);
+            timer.Elapsed += SetGameClock;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        void SetGameClock(Object source, ElapsedEventArgs e)
+        {
+            // Dispatcher.Invoke fixes the error:
+            // The calling thread cannot access this object because a different thread owns it.
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                gameDuration++;
+
+                ((MainWindow)System.Windows.Application.Current.MainWindow).Timer.Text = gameDuration.ToString();
+
+                Console.WriteLine("Incremending duration");
+            });
         }
 
         public Square[,] GeneratePlayField()
