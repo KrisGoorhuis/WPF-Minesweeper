@@ -40,6 +40,8 @@ namespace Multisweeper
         Queue<Square> uncoverQueue = new Queue<Square>();
         Queue<Square> uncoverZeroesQueue = new Queue<Square>();
 
+        Timer timer = new System.Timers.Timer(1000);
+
 
         Random random = new Random();
 
@@ -96,8 +98,13 @@ namespace Multisweeper
 
         public void Reset()
         {
+            timer.Stop();
+            timer = new Timer(1000);
+            SetGameClock();
+
             takingFirstMove = true;
             gameEnded = false;
+
             SetSmiley(normalFace);
 
             gameDuration = 0;
@@ -108,13 +115,17 @@ namespace Multisweeper
 
         public void StartTimer()
         {
-            Timer timer = new System.Timers.Timer(1000);
-            timer.Elapsed += SetGameClock;
+            timer.Elapsed += TimerAction;
             timer.AutoReset = true;
             timer.Enabled = true;
         }
 
-        void SetGameClock(Object source, ElapsedEventArgs e)
+        void TimerAction(Object source, ElapsedEventArgs e)
+        {
+            SetGameClock();
+        }
+
+        void SetGameClock()
         {
             // Dispatcher.Invoke fixes the error:
             // The calling thread cannot access this object because a different thread owns it.
@@ -123,8 +134,6 @@ namespace Multisweeper
                 gameDuration++;
 
                 ((MainWindow)System.Windows.Application.Current.MainWindow).Timer.Text = gameDuration.ToString();
-
-                Console.WriteLine("Incremending duration");
             });
         }
 
