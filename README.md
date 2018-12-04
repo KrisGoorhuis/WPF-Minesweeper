@@ -1,3 +1,5 @@
-Minesweeper constructed in WPF.
+Multiplayer Minesweeper WIP
 
-Contains optional difficulty presets and custom game creation.
+Nothing relating to multiplayer exists here yet. 
+
+Single player is getting there!
