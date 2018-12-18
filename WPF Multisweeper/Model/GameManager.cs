@@ -27,9 +27,9 @@ namespace Multisweeper
 
         int gameDuration = 0;
 
-        int xSize = 15;
-        int ySize = 15;
-        int mineCount = 30;
+        public int xSize = 15;
+        public int ySize = 15;
+        public int mineCount = 30;
 
         string gameOverFace = "x__x"; // First underscore isn't visible. Don't know why.
         string winFace = ":D";
@@ -85,12 +85,12 @@ namespace Multisweeper
             return _playField;
         }
 
-        public Square[,] NewCustomGame(int width, int height, int saturation)
+        public Square[,] NewCustomGame(int width, int height, int mines)
         {
             Reset();
 
             Square[,] _playField = GeneratePlayField(width, height);
-            _playField = PopulatePlayFieldWithMines(_playField, width, height, saturation);
+            _playField = PopulatePlayFieldWithMines(_playField, width, height, mines);
             _playField = CalculateNeighboringMineCount(_playField);
 
             return _playField;

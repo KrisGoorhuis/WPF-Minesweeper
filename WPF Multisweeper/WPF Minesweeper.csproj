@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Model\PlayField.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Views\CustomSingleplayer.xaml.cs">
       <DependentUpon>CustomSingleplayer.xaml</DependentUpon>

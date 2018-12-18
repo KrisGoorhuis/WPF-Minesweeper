@@ -5,24 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Multisweeper"
         mc:Ignorable="d"
-        Title="CustomSinglePlayer" Height="152.5" Width="150">
-    <Grid Margin="0,0,-5.5,16.5">
+        Title="CustomSinglePlayer" Height="158.94" Width="150">
+    <Grid Margin="0,0,-5.5,0">
         <StackPanel Margin="5,0,0,0" >
             <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
                 <TextBlock Padding="0, 0, 5, 0">Width:</TextBlock>
-                <TextBox Name="customWidthField">25</TextBox>
+                <TextBox Name="customWidthField" MaxLength="2">25</TextBox>
+                <TextBlock Name="customWidthFieldError"></TextBlock>
             </StackPanel>
             <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
                 <TextBlock Padding="0, 0, 5, 0">Height:</TextBlock>
-                <TextBox Name="customHeightField">25</TextBox>
+                <TextBox Name="customHeightField" MaxLength="2">25</TextBox>
+                <TextBlock Name="customHeightFieldError"></TextBlock>
             </StackPanel>
             <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
                 <TextBlock Padding="0, 0, 5, 0">Mines: </TextBlock>
-                <TextBox x:Name="customMineCountField">30</TextBox>
+                <TextBox x:Name="customMineCountField" MaxLength="2">30</TextBox>
+                <TextBlock Name="customMineCountFieldError"></TextBlock>
             </StackPanel>
-            <StackPanel Margin="0, 10, 0, 0" Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Margin="0, 5, 0, 0" Name="customGameError" FontSize="10"></TextBlock>
+            </StackPanel>
+            <StackPanel Margin="0, 5, 0, 0" Orientation="Horizontal">
                 <Button Click="StartCustomSinglePlayer">Start</Button>
-                <Button>Cancel</Button>
+                <Button Click="CloseWindow">Cancel</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

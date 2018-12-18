@@ -29,12 +29,34 @@ namespace Multisweeper
         {
             MainWindow mainWindow = this.Owner as MainWindow;
 
-            int width = Convert.ToInt32(customWidthField.Text);
-            int height = Convert.ToInt32(customHeightField.Text);
-            int mineCount = Convert.ToInt32(customMineCountField.Text);
+            int width;
+            int height;
+            int mineCount;
 
-            mainWindow.StartCustomGame(width, height, mineCount);
+            try
+            {
+                width = Convert.ToInt32(customWidthField.Text);
+                height = Convert.ToInt32(customHeightField.Text);
+                mineCount = Convert.ToInt32(customMineCountField.Text);
 
+                if (width > 0 && height > 0 && mineCount > 0)
+                {
+                    mainWindow.StartCustomGame(width, height, mineCount);
+                    this.Close();
+                }
+                else
+                {
+                    customGameError.Text = "Fields must be > 0";
+                }
+            }
+            catch
+            {
+                customGameError.Text = "Fields must be numbers";
+            }
+        }
+
+        void CloseWindow()
+        {
             this.Close();
         }
     }
