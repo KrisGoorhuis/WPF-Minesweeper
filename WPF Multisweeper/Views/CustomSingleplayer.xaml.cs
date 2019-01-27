@@ -29,6 +29,8 @@ namespace Multisweeper
         {
             MainWindow mainWindow = this.Owner as MainWindow;
 
+            mainWindow.ClearCheckmarks();
+
             int width;
             int height;
             int mineCount;
@@ -41,12 +43,13 @@ namespace Multisweeper
 
                 if (width > 0 && height > 0 && mineCount > 0)
                 {
+                    //mainWindow.ClearCheckmarks();
                     mainWindow.StartCustomGame(width, height, mineCount);
                     this.Close();
                 }
                 else
                 {
-                    customGameError.Text = "Fields must be > 0";
+                    customGameError.Text = "Fields must be # > 0";
                 }
             }
             catch

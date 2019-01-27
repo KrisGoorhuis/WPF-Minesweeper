@@ -16,7 +16,7 @@
                 <Separator/>
             </MenuItem>
 
-            <MenuItem Header="Options">
+            <MenuItem Header="Options" Name="Options">
                 <MenuItem Header="Ensure useful first move" IsCheckable="True" IsChecked="True" Click="ToggleUsefulFirstMove"></MenuItem>
                 <Separator/>
                 <MenuItem Header="Easy" Tag="difficulty" IsCheckable="True" Click="SetDifficulty"/>

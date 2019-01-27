@@ -110,13 +110,15 @@ namespace Multisweeper
                 gameManager.usefulFirstMove = true;
         }
 
-        void SetDifficulty(object sender, RoutedEventArgs e)
+        public void SetDifficulty(object sender, RoutedEventArgs e)
         {
+            previousGameMode = "default";
+
             MenuItem mi = sender as MenuItem;
             gameManager.SetDifficulty(mi.Header as string);
 
-            MenuItem parent = mi.Parent as MenuItem;
-            foreach (object subitem in parent.Items)
+            //MenuItem parent = mi.Parent as MenuItem;
+            foreach (object subitem in Options.Items)
             {
                 if (subitem is MenuItem)
                 {
@@ -125,6 +127,18 @@ namespace Multisweeper
                     {
                         submenu.IsChecked = false;
                     }
+                }
+            }
+        }
+
+        public void ClearCheckmarks()
+        {
+            foreach (object subitem in Options.Items)
+            {
+                if (subitem is MenuItem)
+                {
+                    MenuItem submenu = subitem as MenuItem;
+                    submenu.IsChecked = false;
                 }
             }
         }
