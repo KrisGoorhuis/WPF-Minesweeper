@@ -85,6 +85,16 @@ namespace Multisweeper
 
         public void Dig()
         {
+            if (gameManager.takingFirstMove)
+            {
+                gameManager.StartTimer();
+
+                if (gameManager.usefulFirstMove)
+                {
+
+                }
+            }
+
             if (gameManager.takingFirstMove && gameManager.usefulFirstMove)
             {
                 if (neighboringMines != 0)
@@ -95,8 +105,8 @@ namespace Multisweeper
                 }
             }
 
-            gameManager.StartTimer();
             gameManager.takingFirstMove = false;
+
 
             // 0 is unmarked.
             if (isUncovered || flag != 0)
